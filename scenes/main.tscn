@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbhe8txmr3v0x"]
+
+[ext_resource type="PackedScene" uid="uid://rsgbc50dyqjq" path="res://scenes/bossman/bossman.tscn" id="1_ndgxj"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Bossman" parent="." instance=ExtResource("1_ndgxj")]
+position = Vector2(96, 69)

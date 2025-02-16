@@ -1,0 +1,133 @@
+[gd_scene load_steps=15 format=3 uid="uid://rsgbc50dyqjq"]
+
+[ext_resource type="Texture2D" uid="uid://otrpjwobuq48" path="res://art/bossman.png" id="1_7j0j7"]
+[ext_resource type="Script" path="res://scenes/common/entity.gd" id="1_vv1sn"]
+[ext_resource type="Resource" uid="uid://ccjxu1y01y8h4" path="res://scenes/bossman/bossman_attributes.tres" id="2_dm1rf"]
+[ext_resource type="Script" path="res://scenes/common/states/state_machine.gd" id="4_6m0db"]
+[ext_resource type="Script" path="res://scenes/bossman/states/sat.gd" id="5_byj66"]
+[ext_resource type="Script" path="res://scenes/bossman/states/unsit.gd" id="6_vw84s"]
+[ext_resource type="Script" path="res://scenes/bossman/states/idle.gd" id="7_jdrqm"]
+[ext_resource type="Script" path="res://scenes/bossman/states/run.gd" id="8_n22xp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kta3c"]
+size = Vector2(28, 60)
+
+[sub_resource type="Animation" id="Animation_icu15"]
+resource_name = "sat"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_e1tj2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_7mn2f"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_go0v7"]
+resource_name = "dab"
+length = 0.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [2, 3]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StateMachine/unsit")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_on_animation_finish"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n7bpy"]
+_data = {
+"RESET": SubResource("Animation_e1tj2"),
+"dab": SubResource("Animation_go0v7"),
+"idle": SubResource("Animation_7mn2f"),
+"sat": SubResource("Animation_icu15")
+}
+
+[node name="Bossman" type="CharacterBody2D" node_paths=PackedStringArray("animation_player")]
+floor_constant_speed = true
+script = ExtResource("1_vv1sn")
+attributes = ExtResource("2_dm1rf")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_7j0j7")
+hframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-4, 2)
+shape = SubResource("RectangleShape2D_kta3c")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "managed_entity")]
+script = ExtResource("4_6m0db")
+initial_state = NodePath("sat")
+managed_entity = NodePath("..")
+
+[node name="sat" type="Node" parent="StateMachine"]
+script = ExtResource("5_byj66")
+
+[node name="unsit" type="Node" parent="StateMachine"]
+script = ExtResource("6_vw84s")
+
+[node name="idle" type="Node" parent="StateMachine"]
+script = ExtResource("7_jdrqm")
+
+[node name="run" type="Node" parent="StateMachine"]
+script = ExtResource("8_n22xp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_n7bpy")
+}
