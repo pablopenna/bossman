@@ -6,6 +6,6 @@ var facing_direction: FacingDirectionUtils.FacingDirection = FacingDirectionUtil
 @export 
 var animation_player: AnimationPlayer
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	facing_direction = FacingDirectionUtils.getFacingDirectionFromVelocityWithDefault(velocity, facing_direction)
 	move_and_slide()

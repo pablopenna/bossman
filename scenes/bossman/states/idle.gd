@@ -6,7 +6,7 @@ func _ready() -> void:
 func enter():
 	managed_entity.animation_player.play("idle")
 
-func process(delta: float) -> void:
+func process(_delta: float) -> void:
 	var input = Input.get_axis("player_move_left", "player_move_right")
 	if input != 0:
 		change_to_state.emit("bossman_run")

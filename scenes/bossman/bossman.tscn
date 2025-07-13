@@ -1,13 +1,13 @@
 [gd_scene load_steps=16 format=3 uid="uid://rsgbc50dyqjq"]
 
 [ext_resource type="Texture2D" uid="uid://otrpjwobuq48" path="res://art/bossman.png" id="1_7j0j7"]
-[ext_resource type="Script" path="res://scenes/common/entity.gd" id="1_vv1sn"]
+[ext_resource type="Script" uid="uid://onvrxxdxponm" path="res://scenes/common/entity.gd" id="1_vv1sn"]
 [ext_resource type="Resource" uid="uid://ccjxu1y01y8h4" path="res://scenes/bossman/bossman_attributes.tres" id="2_dm1rf"]
-[ext_resource type="Script" path="res://scenes/common/states/state_machine.gd" id="4_6m0db"]
-[ext_resource type="Script" path="res://scenes/bossman/states/sat.gd" id="5_byj66"]
-[ext_resource type="Script" path="res://scenes/bossman/states/unsit.gd" id="6_vw84s"]
-[ext_resource type="Script" path="res://scenes/bossman/states/idle.gd" id="7_jdrqm"]
-[ext_resource type="Script" path="res://scenes/bossman/states/run.gd" id="8_n22xp"]
+[ext_resource type="Script" uid="uid://xij7lf2wy0n2" path="res://scenes/common/states/state_machine.gd" id="4_6m0db"]
+[ext_resource type="Script" uid="uid://1nq02upahbrq" path="res://scenes/bossman/states/sat.gd" id="5_byj66"]
+[ext_resource type="Script" uid="uid://fc02nao47qb3" path="res://scenes/bossman/states/unsit.gd" id="6_vw84s"]
+[ext_resource type="Script" uid="uid://5ar2gn7ugeyw" path="res://scenes/bossman/states/idle.gd" id="7_jdrqm"]
+[ext_resource type="Script" uid="uid://dm376lnduvqdp" path="res://scenes/bossman/states/run.gd" id="8_n22xp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kta3c"]
 size = Vector2(28, 60)
@@ -25,6 +25,21 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_o4lkw"]
+resource_name = "cast"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
 }
 
 [sub_resource type="Animation" id="Animation_go0v7"]
@@ -88,28 +103,13 @@ tracks/0/keys = {
 "values": [2]
 }
 
-[sub_resource type="Animation" id="Animation_o4lkw"]
-resource_name = "cast"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_n7bpy"]
 _data = {
-"RESET": SubResource("Animation_e1tj2"),
-"cast": SubResource("Animation_o4lkw"),
-"dab": SubResource("Animation_go0v7"),
-"idle": SubResource("Animation_7mn2f"),
-"sat": SubResource("Animation_icu15")
+&"RESET": SubResource("Animation_e1tj2"),
+&"cast": SubResource("Animation_o4lkw"),
+&"dab": SubResource("Animation_go0v7"),
+&"idle": SubResource("Animation_7mn2f"),
+&"sat": SubResource("Animation_icu15")
 }
 
 [node name="Bossman" type="CharacterBody2D" node_paths=PackedStringArray("animation_player")]
@@ -145,5 +145,5 @@ script = ExtResource("8_n22xp")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_n7bpy")
+&"": SubResource("AnimationLibrary_n7bpy")
 }

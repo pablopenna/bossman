@@ -1,8 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://dbhe8txmr3v0x"]
+[gd_scene load_steps=3 format=3 uid="uid://dbhe8txmr3v0x"]
 
 [ext_resource type="PackedScene" uid="uid://rsgbc50dyqjq" path="res://scenes/bossman/bossman.tscn" id="1_ndgxj"]
+[ext_resource type="Texture2D" uid="uid://dak6mbw01s055" path="res://art/goblin.png" id="2_0wfyh"]
 
 [node name="Main" type="Node2D"]
 
 [node name="Bossman" parent="." instance=ExtResource("1_ndgxj")]
 position = Vector2(96, 69)
+
+[node name="Goblin" type="Sprite2D" parent="."]
+position = Vector2(142, 85)
+texture = ExtResource("2_0wfyh")
