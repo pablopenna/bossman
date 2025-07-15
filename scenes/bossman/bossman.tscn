@@ -1,13 +1,19 @@
-[gd_scene load_steps=16 format=3 uid="uid://rsgbc50dyqjq"]
+[gd_scene load_steps=22 format=3 uid="uid://rsgbc50dyqjq"]
 
 [ext_resource type="Texture2D" uid="uid://otrpjwobuq48" path="res://art/bossman.png" id="1_7j0j7"]
-[ext_resource type="Script" uid="uid://onvrxxdxponm" path="res://scenes/common/entity.gd" id="1_vv1sn"]
-[ext_resource type="Resource" uid="uid://ccjxu1y01y8h4" path="res://scenes/bossman/bossman_attributes.tres" id="2_dm1rf"]
-[ext_resource type="Script" uid="uid://xij7lf2wy0n2" path="res://scenes/common/states/state_machine.gd" id="4_6m0db"]
-[ext_resource type="Script" uid="uid://1nq02upahbrq" path="res://scenes/bossman/states/sat.gd" id="5_byj66"]
-[ext_resource type="Script" uid="uid://fc02nao47qb3" path="res://scenes/bossman/states/unsit.gd" id="6_vw84s"]
-[ext_resource type="Script" uid="uid://5ar2gn7ugeyw" path="res://scenes/bossman/states/idle.gd" id="7_jdrqm"]
-[ext_resource type="Script" uid="uid://dm376lnduvqdp" path="res://scenes/bossman/states/run.gd" id="8_n22xp"]
+[ext_resource type="Script" uid="uid://brwbr5km8tnx5" path="res://scenes/bossman/bossman.gd" id="1_ynbah"]
+[ext_resource type="Script" uid="uid://c1p2k4gnmsd5i" path="res://scenes/common/states/state_manager.gd" id="4_lu0pf"]
+[ext_resource type="Script" uid="uid://1nq02upahbrq" path="res://scenes/bossman/states/throne/sat.gd" id="5_byj66"]
+[ext_resource type="Script" uid="uid://bsej086u63lhp" path="res://scenes/bossman/states/idle.gd" id="5_y5brg"]
+[ext_resource type="Script" uid="uid://fc02nao47qb3" path="res://scenes/bossman/states/throne/unsit.gd" id="6_vw84s"]
+[ext_resource type="Script" uid="uid://d1ajfcjn4i0rq" path="res://scenes/bossman/states/move.gd" id="6_ynbah"]
+[ext_resource type="Script" uid="uid://hpgl7ii1ngh1" path="res://scenes/bossman/states/jump.gd" id="8_640y7"]
+[ext_resource type="Script" uid="uid://cw3yvvengfoal" path="res://scenes/common/input_buffer.gd" id="8_lu0pf"]
+[ext_resource type="Script" uid="uid://chmr1wpu3v2lj" path="res://scenes/bossman/states/air.gd" id="9_bfm6t"]
+[ext_resource type="Script" uid="uid://bhbv0ejgyxibk" path="res://scenes/bossman/states/air_stomp.gd" id="10_1or6h"]
+[ext_resource type="Script" uid="uid://b2fu5diq2yf2j" path="res://scenes/bossman/states/wall_jump.gd" id="11_5akeu"]
+[ext_resource type="Script" uid="uid://dt02x1s3ag6m" path="res://scenes/bossman/states/wall_slide.gd" id="12_8hjgk"]
+[ext_resource type="Script" uid="uid://c7jslcn6hw145" path="res://scenes/bossman/states/wall_unstick.gd" id="13_nx3jo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kta3c"]
 size = Vector2(28, 60)
@@ -112,11 +118,10 @@ _data = {
 &"sat": SubResource("Animation_icu15")
 }
 
-[node name="Bossman" type="CharacterBody2D" node_paths=PackedStringArray("animation_player")]
+[node name="Bossman" type="CharacterBody2D"]
+z_index = 10
 floor_constant_speed = true
-script = ExtResource("1_vv1sn")
-attributes = ExtResource("2_dm1rf")
-animation_player = NodePath("AnimationPlayer")
+script = ExtResource("1_ynbah")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_7j0j7")
@@ -127,23 +132,48 @@ position = Vector2(-4, 2)
 shape = SubResource("RectangleShape2D_kta3c")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "managed_entity")]
-script = ExtResource("4_6m0db")
+script = ExtResource("4_lu0pf")
 initial_state = NodePath("sat")
 managed_entity = NodePath("..")
 
-[node name="sat" type="Node" parent="StateMachine"]
+[node name="sat" type="Node" parent="StateMachine" node_paths=PackedStringArray("animation_player")]
 script = ExtResource("5_byj66")
+animation_player = NodePath("../../AnimationPlayer")
 
-[node name="unsit" type="Node" parent="StateMachine"]
+[node name="unsit" type="Node" parent="StateMachine" node_paths=PackedStringArray("animation_player")]
 script = ExtResource("6_vw84s")
+animation_player = NodePath("../../AnimationPlayer")
 
-[node name="idle" type="Node" parent="StateMachine"]
-script = ExtResource("7_jdrqm")
+[node name="idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("input_buffer")]
+script = ExtResource("5_y5brg")
+input_buffer = NodePath("../../InputBuffer")
 
-[node name="run" type="Node" parent="StateMachine"]
-script = ExtResource("8_n22xp")
+[node name="move" type="Node" parent="StateMachine" node_paths=PackedStringArray("input_buffer")]
+script = ExtResource("6_ynbah")
+input_buffer = NodePath("../../InputBuffer")
+
+[node name="jump" type="Node" parent="StateMachine"]
+script = ExtResource("8_640y7")
+
+[node name="air" type="Node" parent="StateMachine"]
+script = ExtResource("9_bfm6t")
+
+[node name="air_stomp" type="Node" parent="StateMachine"]
+script = ExtResource("10_1or6h")
+
+[node name="wall_jump" type="Node" parent="StateMachine"]
+script = ExtResource("11_5akeu")
+
+[node name="wall_slide" type="Node" parent="StateMachine"]
+script = ExtResource("12_8hjgk")
+
+[node name="wall_unstick" type="Node" parent="StateMachine"]
+script = ExtResource("13_nx3jo")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_n7bpy")
 }
+
+[node name="InputBuffer" type="Node" parent="."]
+script = ExtResource("8_lu0pf")

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://t8phdr8f5ldl"]
+
+[ext_resource type="Texture2D" uid="uid://cydxvd0r2s4sc" path="res://art/throne.png" id="1_k47b4"]
+
+[node name="Throne" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -38)
+texture = ExtResource("1_k47b4")

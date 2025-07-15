@@ -1,12 +1,32 @@
 extends State
 
-func _ready() -> void:
-	state_name = 'bossman_idle'
+@export var input_buffer: InputBuffer
 
-func enter():
-	managed_entity.animation_player.play("idle")
+func _ready():
+	state_name = "idle"
 
-func process(_delta: float) -> void:
-	var input = Input.get_axis("player_move_left", "player_move_right")
-	if input != 0:
-		change_to_state.emit("bossman_run")
+func enter(_old_state):
+	print("Entering Idle")
+
+func process(delta):
+	if not managed_entity.is_on_floor():
+		change_to_state.emit("air")
+	
+	if Input.is_action_just_pressed("player_attack"):
+		if Input.is_action_pressed("move_down"):
+			change_to_state.emit("blink_attack")
+		else:
+			change_to_state.emit("idle_attack")
+	
+	if Input.get_axis("player_move_left", "player_move_right") != 0:
+		change_to_state.emit("move")
+		
+	if Input.is_action_just_pressed("player_dash"):
+		change_to_state.emit("dash")
+	
+	# ORDER MATTERS: placing this at the end makes it override any other state changes in this function that happened in the same frame
+	if Input.is_action_just_pressed("player_jump") or input_buffer.should_buffer_jump():
+		change_to_state.emit("jump")
+	
+func exit(new_state):
+	print("Exiting Idle")
