@@ -155,8 +155,9 @@ input_buffer = NodePath("../../InputBuffer")
 [node name="jump" type="Node" parent="StateMachine"]
 script = ExtResource("8_640y7")
 
-[node name="air" type="Node" parent="StateMachine"]
+[node name="air" type="Node" parent="StateMachine" node_paths=PackedStringArray("input_buffer")]
 script = ExtResource("9_bfm6t")
+input_buffer = NodePath("../../InputBuffer")
 
 [node name="air_stomp" type="Node" parent="StateMachine"]
 script = ExtResource("10_1or6h")
