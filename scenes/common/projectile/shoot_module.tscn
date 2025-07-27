@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://4repmt5bkjt"]
+
+[ext_resource type="Script" uid="uid://bcu4gt0ers50x" path="res://scenes/common/projectile/shoot_module.gd" id="1_smvp5"]
+
+[node name="ShootModule" type="Node"]
+script = ExtResource("1_smvp5")

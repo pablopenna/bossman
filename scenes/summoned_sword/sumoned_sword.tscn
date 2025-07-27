@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://cxpd1wjits3b5"]
+
+[ext_resource type="Script" uid="uid://bk575gekw2wi2" path="res://scenes/summoned_sword/sumoned_sword.gd" id="1_qg702"]
+[ext_resource type="PackedScene" uid="uid://dyupbmlw3tngu" path="res://scenes/common/projectile/projectile.tscn" id="1_xpbac"]
+[ext_resource type="Texture2D" uid="uid://ccpgkkrfh24do" path="res://art/summoned_sword_2.png" id="2_xpbac"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ho4r"]
+size = Vector2(60, 14)
+
+[node name="Projectile" instance=ExtResource("1_xpbac")]
+script = ExtResource("1_qg702")
+
+[node name="Sprite2D" type="Sprite2D" parent="." index="1"]
+texture = ExtResource("2_xpbac")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_8ho4r")

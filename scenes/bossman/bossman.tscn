@@ -1,7 +1,8 @@
-[gd_scene load_steps=23 format=3 uid="uid://rsgbc50dyqjq"]
+[gd_scene load_steps=26 format=3 uid="uid://rsgbc50dyqjq"]
 
 [ext_resource type="Texture2D" uid="uid://otrpjwobuq48" path="res://art/bossman.png" id="1_7j0j7"]
 [ext_resource type="Script" uid="uid://brwbr5km8tnx5" path="res://scenes/bossman/bossman.gd" id="1_ynbah"]
+[ext_resource type="Script" uid="uid://qa3hxqlimdga" path="res://scenes/common/entity/sprite_rotating_with_face_direction.gd" id="3_8hjgk"]
 [ext_resource type="Script" uid="uid://c1p2k4gnmsd5i" path="res://scenes/common/states/state_manager.gd" id="4_lu0pf"]
 [ext_resource type="Script" uid="uid://1nq02upahbrq" path="res://scenes/bossman/states/throne/sat.gd" id="5_byj66"]
 [ext_resource type="Script" uid="uid://bsej086u63lhp" path="res://scenes/bossman/states/idle.gd" id="5_y5brg"]
@@ -15,6 +16,8 @@
 [ext_resource type="Script" uid="uid://dt02x1s3ag6m" path="res://scenes/bossman/states/wall_slide.gd" id="12_8hjgk"]
 [ext_resource type="Script" uid="uid://c7jslcn6hw145" path="res://scenes/bossman/states/wall_unstick.gd" id="13_nx3jo"]
 [ext_resource type="Script" uid="uid://cas2261npxlrf" path="res://scenes/bossman/states/dash.gd" id="14_5akeu"]
+[ext_resource type="PackedScene" uid="uid://4repmt5bkjt" path="res://scenes/common/projectile/shoot_module.tscn" id="17_nx3jo"]
+[ext_resource type="PackedScene" uid="uid://cxpd1wjits3b5" path="res://scenes/summoned_sword/sumoned_sword.tscn" id="18_wb1nt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kta3c"]
 size = Vector2(28, 60)
@@ -124,9 +127,11 @@ z_index = 10
 floor_constant_speed = true
 script = ExtResource("1_ynbah")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." node_paths=PackedStringArray("entity")]
 texture = ExtResource("1_7j0j7")
 hframes = 5
+script = ExtResource("3_8hjgk")
+entity = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-4, 2)
@@ -137,9 +142,10 @@ script = ExtResource("4_lu0pf")
 initial_state = NodePath("sat")
 managed_entity = NodePath("..")
 
-[node name="sat" type="Node" parent="StateMachine" node_paths=PackedStringArray("animation_player")]
+[node name="sat" type="Node" parent="StateMachine" node_paths=PackedStringArray("animation_player", "shoot_module")]
 script = ExtResource("5_byj66")
 animation_player = NodePath("../../AnimationPlayer")
+shoot_module = NodePath("../../ShootModule")
 
 [node name="unsit" type="Node" parent="StateMachine" node_paths=PackedStringArray("animation_player")]
 script = ExtResource("6_vw84s")
@@ -184,10 +190,14 @@ script = ExtResource("12_8hjgk")
 [node name="wall_unstick" type="Node" parent="StateMachine"]
 script = ExtResource("13_nx3jo")
 
+[node name="InputBuffer" type="Node" parent="."]
+script = ExtResource("8_lu0pf")
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_n7bpy")
 }
 
-[node name="InputBuffer" type="Node" parent="."]
-script = ExtResource("8_lu0pf")
+[node name="ShootModule" parent="." instance=ExtResource("17_nx3jo")]
+projectile_template = ExtResource("18_wb1nt")
+collision_mask = 64

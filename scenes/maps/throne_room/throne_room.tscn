@@ -2,7 +2,7 @@
 
 [ext_resource type="TileSet" uid="uid://6u4ltphslxue" path="res://scenes/maps/throne_room/throne_room_tileset.tres" id="1_d8sh5"]
 [ext_resource type="PackedScene" uid="uid://t8phdr8f5ldl" path="res://scenes/throne/throne.tscn" id="1_uv8k1"]
-[ext_resource type="Shader" uid="uid://hhfal33s5ch1" path="res://shaders/background_highlight.gdshader" id="3_g8lyq"]
+[ext_resource type="Shader" uid="uid://hhfal33s5ch1" path="res://shaders/clearer_color.gdshader" id="3_g8lyq"]
 [ext_resource type="Texture2D" uid="uid://gheulwvmkq2u" path="res://art/placeholder_blocks/16px_block.png" id="4_ky8vb"]
 [ext_resource type="Texture2D" uid="uid://bh0xxcowxv0k7" path="res://art/placeholder_blocks/32px_block.png" id="5_3dvle"]
 [ext_resource type="Texture2D" uid="uid://cribleibtd15h" path="res://art/placeholder_blocks/48px_block.png" id="6_xwavw"]
@@ -49,20 +49,20 @@ texture = ExtResource("4_ky8vb")
 
 [node name="32PxBlock" type="Sprite2D" parent="placeholders"]
 material = SubResource("ShaderMaterial_vv63c")
-position = Vector2(1166, 432)
+position = Vector2(1170, 432)
 texture = ExtResource("5_3dvle")
 
 [node name="48PxBlock" type="Sprite2D" parent="placeholders"]
 material = SubResource("ShaderMaterial_p33uv")
-position = Vector2(1110, 424)
+position = Vector2(1124, 424)
 texture = ExtResource("6_xwavw")
 
 [node name="64PxBlock" type="Sprite2D" parent="placeholders"]
 material = SubResource("ShaderMaterial_jaw1k")
-position = Vector2(1051, 417)
+position = Vector2(1061, 417)
 texture = ExtResource("7_fgxjk")
 
 [node name="128PxBlock" type="Sprite2D" parent="placeholders"]
 material = SubResource("ShaderMaterial_u02dl")
-position = Vector2(954, 384)
+position = Vector2(957, 384)
 texture = ExtResource("8_y1urx")

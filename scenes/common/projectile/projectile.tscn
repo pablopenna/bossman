@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://dyupbmlw3tngu"]
+
+[ext_resource type="Script" uid="uid://d3b2aqx8wme2g" path="res://scenes/common/projectile/projectile.gd" id="1_p0ko3"]
+
+[node name="Projectile" type="Area2D" node_paths=PackedStringArray("fix_collision_raycast")]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_p0ko3")
+fix_collision_raycast = NodePath("RayCast2D")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 0)
+collision_mask = 0
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

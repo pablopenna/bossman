@@ -1,13 +1,11 @@
 [gd_scene load_steps=2 format=3 uid="uid://m4h80v367bd7"]
 
-[sub_resource type="Resource" id="Resource_g7ekf"]
-metadata/__load_path__ = "res://common/scenes/hurtbox/hurtbox.gd"
+[ext_resource type="Script" uid="uid://crg65uwc6x62u" path="res://scenes/common/hurtbox/hurtbox.gd" id="1_kggfa"]
 
 [node name="Hurtbox" type="Area2D"]
 collision_layer = 0
 collision_mask = 0
-script = SubResource("Resource_g7ekf")
-hitbox_collision_layer = 0
+script = ExtResource("1_kggfa")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 offset_left = -55.0

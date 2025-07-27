@@ -2,8 +2,9 @@ class_name Projectile extends Area2D
 
 @export var fix_collision_raycast: RayCast2D
 
-@export var direction: Vector2 = Vector2.UP
-@export var speed: int = 1
+var direction: Vector2 = Vector2.UP
+var speed: int = 1
+var damage: int
 var _hasExploded: bool = false
 var _is_out_of_screen: bool = false
 
@@ -37,6 +38,6 @@ func _on_VisibilityNotifier2D_screen_exited():
 func _on_Projectile_area_entered(area):
 	var hit_entity := area as Hurtbox
 	if hit_entity != null and _hasExploded == false:
-		hit_entity.damaged.emit()
+		hit_entity.receiveDamage(0)
 		_hasExploded = true
 		_destroy()

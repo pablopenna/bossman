@@ -1,21 +1,26 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbhe8txmr3v0x"]
+[gd_scene load_steps=7 format=3 uid="uid://dbhe8txmr3v0x"]
 
 [ext_resource type="PackedScene" uid="uid://rsgbc50dyqjq" path="res://scenes/bossman/bossman.tscn" id="1_ndgxj"]
-[ext_resource type="Texture2D" uid="uid://dak6mbw01s055" path="res://art/goblin.png" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://cubphcw5vjaql" path="res://scenes/maps/throne_room/throne_room.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://dg0wodn064gs2" path="res://scenes/common/follower_camera/follower_camera.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://cvbla7chg57ru" path="res://scenes/enemies/enemy_spawner/enemy_spawner.tscn" id="4_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://d2w3ydbvmpskv" path="res://scenes/enemies/goblin/goblin.tscn" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://c51p8l1nxlhw0" path="res://scenes/game_manager/game_manager.tscn" id="6_tefeu"]
 
 [node name="Main" type="Node2D"]
-
-[node name="Goblin" type="Sprite2D" parent="."]
-z_index = 10
-position = Vector2(532, 433)
-texture = ExtResource("2_0wfyh")
 
 [node name="ThroneRoom" parent="." instance=ExtResource("3_sugp2")]
 
 [node name="Bossman" parent="." instance=ExtResource("1_ndgxj")]
-position = Vector2(995, 416)
+position = Vector2(804, 416)
+collision_layer = 0
 
 [node name="FollowerCamera" parent="." node_paths=PackedStringArray("target") instance=ExtResource("4_jyhfs")]
 target = NodePath("../Bossman")
+
+[node name="EnemySpawner" parent="." instance=ExtResource("4_tbgi4")]
+position = Vector2(41, 318)
+enemy_scene = ExtResource("5_tbgi4")
+
+[node name="GameManager" parent="." node_paths=PackedStringArray("enemy_spawner") instance=ExtResource("6_tefeu")]
+enemy_spawner = NodePath("../EnemySpawner")

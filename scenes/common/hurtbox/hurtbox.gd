@@ -17,8 +17,8 @@ func _ready():
 	if not show_debug_label:
 		$RichTextLabel.queue_free()
 	
-func receiveDamage(hitboxData: HitboxData):
-	emit_signal("damaged", hitboxData)
+func receiveDamage(damage: int):
+	emit_signal("damaged", damage)
 	if show_debug_label:
 		$RichTextLabel.text = "Ouch!"
 		await get_tree().create_timer(0.1).timeout

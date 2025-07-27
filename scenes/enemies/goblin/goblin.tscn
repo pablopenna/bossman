@@ -1,0 +1,47 @@
+[gd_scene load_steps=9 format=3 uid="uid://d2w3ydbvmpskv"]
+
+[ext_resource type="Script" uid="uid://d24fxsvokf4h0" path="res://scenes/enemies/goblin/goblin.gd" id="1_0peef"]
+[ext_resource type="Texture2D" uid="uid://dak6mbw01s055" path="res://art/goblin.png" id="2_duw8a"]
+[ext_resource type="Script" uid="uid://c1p2k4gnmsd5i" path="res://scenes/common/states/state_manager.gd" id="3_gnerw"]
+[ext_resource type="Script" uid="uid://cktxa68yrpf8c" path="res://scenes/enemies/goblin/states/goblin_idle.gd" id="4_gnerw"]
+[ext_resource type="Script" uid="uid://cspb4xg5u07ok" path="res://scenes/enemies/goblin/states/goblin_go_for_treasure.gd" id="5_pcsqt"]
+[ext_resource type="PackedScene" uid="uid://m4h80v367bd7" path="res://scenes/common/hurtbox/hurtbox.tscn" id="6_pcsqt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yeoui"]
+size = Vector2(18, 27.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cqlnd"]
+
+[node name="Goblin" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_0peef")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 1.75)
+shape = SubResource("RectangleShape2D_yeoui")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_duw8a")
+
+[node name="StateManager" type="Node" parent="." node_paths=PackedStringArray("initial_state", "managed_entity")]
+script = ExtResource("3_gnerw")
+initial_state = NodePath("goblin_go_for_treasure")
+managed_entity = NodePath("..")
+metadata/_custom_type_script = "uid://c1p2k4gnmsd5i"
+
+[node name="goblin_idle" type="Node" parent="StateManager"]
+script = ExtResource("4_gnerw")
+
+[node name="goblin_go_for_treasure" type="Node" parent="StateManager"]
+script = ExtResource("5_pcsqt")
+
+[node name="Hurtbox" parent="." node_paths=PackedStringArray("linked_entity") instance=ExtResource("6_pcsqt")]
+linked_entity = NodePath("..")
+hurtbox_collision_layer = 64
+show_debug_label = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_cqlnd")
+
+[connection signal="damaged" from="Hurtbox" to="." method="die"]
