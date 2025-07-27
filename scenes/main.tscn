@@ -1,30 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://dbhe8txmr3v0x"]
+[gd_scene load_steps=5 format=3 uid="uid://dbhe8txmr3v0x"]
 
 [ext_resource type="PackedScene" uid="uid://rsgbc50dyqjq" path="res://scenes/bossman/bossman.tscn" id="1_ndgxj"]
 [ext_resource type="Texture2D" uid="uid://dak6mbw01s055" path="res://art/goblin.png" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://cubphcw5vjaql" path="res://scenes/maps/throne_room/throne_room.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://dg0wodn064gs2" path="res://scenes/common/follower_camera/follower_camera.tscn" id="4_jyhfs"]
-[ext_resource type="Texture2D" uid="uid://gheulwvmkq2u" path="res://art/placeholder_blocks/16px_block.png" id="5_85g3d"]
-[ext_resource type="Texture2D" uid="uid://bh0xxcowxv0k7" path="res://art/placeholder_blocks/32px_block.png" id="6_choun"]
-[ext_resource type="Shader" uid="uid://hhfal33s5ch1" path="res://shaders/background_highlight.gdshader" id="6_ya4ey"]
-[ext_resource type="Texture2D" uid="uid://cribleibtd15h" path="res://art/placeholder_blocks/48px_block.png" id="7_ya4ey"]
-[ext_resource type="Texture2D" uid="uid://csjh4an42h02r" path="res://art/placeholder_blocks/64px_block.png" id="8_eb6dy"]
-[ext_resource type="Texture2D" uid="uid://csqs2ue8qeknr" path="res://art/placeholder_blocks/128px_block.png" id="9_trceg"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_choun"]
-shader = ExtResource("6_ya4ey")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_eb6dy"]
-shader = ExtResource("6_ya4ey")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ya4ey"]
-shader = ExtResource("6_ya4ey")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_trceg"]
-shader = ExtResource("6_ya4ey")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_a8y0u"]
-shader = ExtResource("6_ya4ey")
 
 [node name="Main" type="Node2D"]
 
@@ -40,28 +19,3 @@ position = Vector2(995, 416)
 
 [node name="FollowerCamera" parent="." node_paths=PackedStringArray("target") instance=ExtResource("4_jyhfs")]
 target = NodePath("../Bossman")
-
-[node name="16PxBlock" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_choun")
-position = Vector2(1199, 440)
-texture = ExtResource("5_85g3d")
-
-[node name="32PxBlock" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_eb6dy")
-position = Vector2(1166, 432)
-texture = ExtResource("6_choun")
-
-[node name="48PxBlock" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_ya4ey")
-position = Vector2(1110, 424)
-texture = ExtResource("7_ya4ey")
-
-[node name="64PxBlock" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_trceg")
-position = Vector2(1051, 417)
-texture = ExtResource("8_eb6dy")
-
-[node name="128PxBlock" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_a8y0u")
-position = Vector2(954, 384)
-texture = ExtResource("9_trceg")

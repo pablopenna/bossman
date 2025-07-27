@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://rsgbc50dyqjq"]
+[gd_scene load_steps=23 format=3 uid="uid://rsgbc50dyqjq"]
 
 [ext_resource type="Texture2D" uid="uid://otrpjwobuq48" path="res://art/bossman.png" id="1_7j0j7"]
 [ext_resource type="Script" uid="uid://brwbr5km8tnx5" path="res://scenes/bossman/bossman.gd" id="1_ynbah"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://b2fu5diq2yf2j" path="res://scenes/bossman/states/wall_jump.gd" id="11_5akeu"]
 [ext_resource type="Script" uid="uid://dt02x1s3ag6m" path="res://scenes/bossman/states/wall_slide.gd" id="12_8hjgk"]
 [ext_resource type="Script" uid="uid://c7jslcn6hw145" path="res://scenes/bossman/states/wall_unstick.gd" id="13_nx3jo"]
+[ext_resource type="Script" uid="uid://cas2261npxlrf" path="res://scenes/bossman/states/dash.gd" id="14_5akeu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kta3c"]
 size = Vector2(28, 60)
@@ -152,12 +153,24 @@ input_buffer = NodePath("../../InputBuffer")
 script = ExtResource("6_ynbah")
 input_buffer = NodePath("../../InputBuffer")
 
+[node name="dash" type="Node" parent="StateMachine"]
+script = ExtResource("14_5akeu")
+
+[node name="duration" type="Timer" parent="StateMachine/dash"]
+wait_time = 0.5
+one_shot = true
+
+[node name="cooldown" type="Timer" parent="StateMachine/dash"]
+wait_time = 0.1
+one_shot = true
+
 [node name="jump" type="Node" parent="StateMachine"]
 script = ExtResource("8_640y7")
 
-[node name="air" type="Node" parent="StateMachine" node_paths=PackedStringArray("input_buffer")]
+[node name="air" type="Node" parent="StateMachine" node_paths=PackedStringArray("input_buffer", "dash_state")]
 script = ExtResource("9_bfm6t")
 input_buffer = NodePath("../../InputBuffer")
+dash_state = NodePath("../dash")
 
 [node name="air_stomp" type="Node" parent="StateMachine"]
 script = ExtResource("10_1or6h")
