@@ -1,5 +1,6 @@
 extends State
 
+@export var input_module: InputModule
 @export var input_buffer: InputBuffer
 @export var dash_state: State
 const horizontal_speed = 300
@@ -27,19 +28,19 @@ func exit(newState):
 	print("Exiting Air")
 	
 func process(delta):
-	if Input.is_action_pressed("player_dash") and dash_state._is_dash_ready():
+	if input_module.is_dashing() and dash_state._is_dash_ready():
 		change_to_state.emit("dash")
 		return
 		
-	if Input.is_action_pressed("player_move_down") and Input.is_action_just_pressed("jump"):
+	if input_module.is_moving_down() and input_module.is_jumping():
 		change_to_state.emit("air_stomp")
 		return
 	
-	if Input.is_action_just_pressed("player_jump") and input_buffer.can_coyote_time() and previous_state_name == "move":
+	if input_module.is_jumping() and input_buffer.can_coyote_time() and previous_state_name == "move":
 		change_to_state.emit("jump")
 		return
 		
-	if Input.is_action_just_pressed("player_attack"):
+	if input_module.is_attacking():
 		change_to_state.emit("rush_attack")
 		return
 		
@@ -51,8 +52,9 @@ func process(delta):
 		change_to_state.emit("wall_slide")
 		return
 	
-	var input_dir = Input.get_axis("player_move_left", "player_move_right")
-	if input_dir != 0 or not is_there_momentum: # Need to do this as to not overwrite the movement of other states like wall_jump if there is no input while on air
+	var input_dir = input_module.get_movement_vector().x
+	# Need to do this as to not overwrite the movement of other states like wall_jump if there is no input while on air
+	if input_dir != 0 or not is_there_momentum: 
 		is_there_momentum = false
 		managed_entity.velocity.x =  input_dir * horizontal_speed
 		
@@ -73,7 +75,7 @@ func _should_apply_gravity_increase():
 	var current_time_ms = Time.get_ticks_msec()
 	if current_time_ms < entered_state_time_ms + minimum_time_before_gravity_increase_enabled_ms:
 		return false
-	if Input.is_action_pressed("player_jump"):
+	if input_module.is_jumping():
 		return false
 	if has_gravity_increase_been_applied:
 		return false

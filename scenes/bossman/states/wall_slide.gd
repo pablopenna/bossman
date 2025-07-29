@@ -1,5 +1,6 @@
 extends State
 
+@export var input_module: InputModule
 const slide_speed = 10
 
 func _ready():
@@ -14,25 +15,18 @@ func exit(newState):
 func process(delta):
 	var wall_normal = managed_entity.get_wall_normal() # get_wall_normal() is already normalized
 	
-	if Input.is_action_pressed("player_move_left") and _does_input_dir_match_wall_normal("player_move_left", wall_normal):
+	if wall_normal.is_equal_approx(input_module.get_movement_vector()):
 		change_to_state.emit("wall_unstick")
-		
-	if Input.is_action_pressed("player_move_right") and _does_input_dir_match_wall_normal("player_move_right", wall_normal):
-		change_to_state.emit("wall_unstick")
+		return
 	
-	if Input.is_action_just_pressed("player_jump"):
+	if input_module.is_jumping():
 		change_to_state.emit("wall_jump")
+		return
 		
 	if managed_entity.is_on_floor():
 		change_to_state.emit("idle")
+		return
 	
 func physics_process(delta):
 	managed_entity.velocity.y = Vector2.DOWN.y * slide_speed
-	
-func _does_input_dir_match_wall_normal(action_input: StringName, wall_normal: Vector2):
-	if action_input == "player_move_right" and wall_normal.is_equal_approx(Vector2.RIGHT):
-		return true
-	if action_input == "player_move_left" and wall_normal.is_equal_approx(Vector2.LEFT):
-		return true
-	return false
 	

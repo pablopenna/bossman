@@ -1,6 +1,7 @@
 extends State
 
 @export var input_buffer: InputBuffer
+@export var input_module: InputModule
 
 func _ready():
 	state_name = "idle"
@@ -11,22 +12,27 @@ func enter(_old_state):
 func process(delta):
 	if not managed_entity.is_on_floor():
 		change_to_state.emit("air")
+		return
 	
-	if Input.is_action_just_pressed("player_attack"):
-		if Input.is_action_pressed("move_down"):
+	if input_module.is_attacking():
+		if input_module.is_moving_down():
 			change_to_state.emit("blink_attack")
+			return
 		else:
 			change_to_state.emit("idle_attack")
+			return
 	
-	if Input.get_axis("player_move_left", "player_move_right") != 0:
+	if input_module.get_movement_vector().x != 0:
 		change_to_state.emit("move")
+		return
 		
-	if Input.is_action_just_pressed("player_dash"):
+	if input_module.is_dashing():
 		change_to_state.emit("dash")
+		return
 	
-	# ORDER MATTERS: placing this at the end makes it override any other state changes in this function that happened in the same frame
-	if Input.is_action_just_pressed("player_jump") or input_buffer.should_buffer_jump():
+	if input_module.is_jumping() or input_buffer.should_buffer_jump():
 		change_to_state.emit("jump")
+		return
 	
 func exit(new_state):
 	print("Exiting Idle")

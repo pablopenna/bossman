@@ -4,6 +4,7 @@ const speed: float = 300
 var target_velocity: Vector2
 
 @export var input_buffer: InputBuffer
+@export var input_module: InputModule
 
 func _ready():
 	state_name = "move"
@@ -15,20 +16,24 @@ func process(delta):
 	if not managed_entity.is_on_floor():
 		change_to_state.emit("air")
 	
-	managed_entity.velocity.x = Input.get_axis("player_move_left", "player_move_right") * speed
+	var input_movement_x = input_module.get_movement_vector().x
+	managed_entity.velocity.x = input_movement_x * speed
 	
-	# Input buffer check not needed here as when landing it always goes to IDLE first
-	if Input.is_action_just_pressed("player_jump"):# or input_buffer.should_buffer_jump():
+	if input_module.is_jumping(InputModifier.JUST_PRESSED) or input_buffer.should_buffer_jump():
 		change_to_state.emit("jump")
+		return
 		
-	if Input.is_action_just_pressed("player_dash"):
+	if input_module.is_dashing():
 		change_to_state.emit("dash")
+		return
 	
-	if Input.is_action_just_pressed("player_attack"):
+	if input_module.is_attacking():
 		change_to_state.emit("rush_attack")
+		return
 
-	if managed_entity.velocity.x == 0:
+	if input_movement_x == 0:
 		change_to_state.emit("idle")
+		return
 	
 func exit(new_state):
 	input_buffer.update_last_ground_time()

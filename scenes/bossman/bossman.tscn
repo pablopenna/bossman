@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://rsgbc50dyqjq"]
+[gd_scene load_steps=27 format=3 uid="uid://rsgbc50dyqjq"]
 
 [ext_resource type="Texture2D" uid="uid://otrpjwobuq48" path="res://art/bossman.png" id="1_7j0j7"]
 [ext_resource type="Script" uid="uid://brwbr5km8tnx5" path="res://scenes/bossman/bossman.gd" id="1_ynbah"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://cas2261npxlrf" path="res://scenes/bossman/states/dash.gd" id="14_5akeu"]
 [ext_resource type="PackedScene" uid="uid://4repmt5bkjt" path="res://scenes/common/projectile/shoot_module.tscn" id="17_nx3jo"]
 [ext_resource type="PackedScene" uid="uid://cxpd1wjits3b5" path="res://scenes/summoned_sword/sumoned_sword.tscn" id="18_wb1nt"]
+[ext_resource type="Script" uid="uid://c2alyerixs80x" path="res://scenes/bossman/player_input_module.gd" id="19_ws6jv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kta3c"]
 size = Vector2(28, 60)
@@ -142,22 +143,25 @@ script = ExtResource("4_lu0pf")
 initial_state = NodePath("sat")
 managed_entity = NodePath("..")
 
-[node name="sat" type="Node" parent="StateMachine" node_paths=PackedStringArray("animation_player", "shoot_module")]
+[node name="sat" type="Node" parent="StateMachine" node_paths=PackedStringArray("animation_player", "shoot_module", "input_module")]
 script = ExtResource("5_byj66")
 animation_player = NodePath("../../AnimationPlayer")
 shoot_module = NodePath("../../ShootModule")
+input_module = NodePath("../../InputModule")
 
 [node name="unsit" type="Node" parent="StateMachine" node_paths=PackedStringArray("animation_player")]
 script = ExtResource("6_vw84s")
 animation_player = NodePath("../../AnimationPlayer")
 
-[node name="idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("input_buffer")]
+[node name="idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("input_buffer", "input_module")]
 script = ExtResource("5_y5brg")
 input_buffer = NodePath("../../InputBuffer")
+input_module = NodePath("../../InputModule")
 
-[node name="move" type="Node" parent="StateMachine" node_paths=PackedStringArray("input_buffer")]
+[node name="move" type="Node" parent="StateMachine" node_paths=PackedStringArray("input_buffer", "input_module")]
 script = ExtResource("6_ynbah")
 input_buffer = NodePath("../../InputBuffer")
+input_module = NodePath("../../InputModule")
 
 [node name="dash" type="Node" parent="StateMachine"]
 script = ExtResource("14_5akeu")
@@ -173,19 +177,22 @@ one_shot = true
 [node name="jump" type="Node" parent="StateMachine"]
 script = ExtResource("8_640y7")
 
-[node name="air" type="Node" parent="StateMachine" node_paths=PackedStringArray("input_buffer", "dash_state")]
+[node name="air" type="Node" parent="StateMachine" node_paths=PackedStringArray("input_module", "input_buffer", "dash_state")]
 script = ExtResource("9_bfm6t")
+input_module = NodePath("../../InputModule")
 input_buffer = NodePath("../../InputBuffer")
 dash_state = NodePath("../dash")
 
-[node name="air_stomp" type="Node" parent="StateMachine"]
+[node name="air_stomp" type="Node" parent="StateMachine" node_paths=PackedStringArray("input_module")]
 script = ExtResource("10_1or6h")
+input_module = NodePath("../../InputModule")
 
 [node name="wall_jump" type="Node" parent="StateMachine"]
 script = ExtResource("11_5akeu")
 
-[node name="wall_slide" type="Node" parent="StateMachine"]
+[node name="wall_slide" type="Node" parent="StateMachine" node_paths=PackedStringArray("input_module")]
 script = ExtResource("12_8hjgk")
+input_module = NodePath("../../InputModule")
 
 [node name="wall_unstick" type="Node" parent="StateMachine"]
 script = ExtResource("13_nx3jo")
@@ -201,3 +208,6 @@ libraries = {
 [node name="ShootModule" parent="." instance=ExtResource("17_nx3jo")]
 projectile_template = ExtResource("18_wb1nt")
 collision_mask = 64
+
+[node name="InputModule" type="Node" parent="."]
+script = ExtResource("19_ws6jv")
