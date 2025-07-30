@@ -23,6 +23,7 @@ shape = SubResource("RectangleShape2D_yeoui")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_duw8a")
+hframes = 2
 
 [node name="StateManager" type="Node" parent="." node_paths=PackedStringArray("initial_state", "managed_entity")]
 script = ExtResource("3_gnerw")
