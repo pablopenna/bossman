@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dbhe8txmr3v0x"]
+[gd_scene load_steps=8 format=3 uid="uid://dbhe8txmr3v0x"]
 
 [ext_resource type="PackedScene" uid="uid://rsgbc50dyqjq" path="res://scenes/bossman/bossman.tscn" id="1_ndgxj"]
 [ext_resource type="PackedScene" uid="uid://cubphcw5vjaql" path="res://scenes/maps/throne_room/throne_room.tscn" id="3_sugp2"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cvbla7chg57ru" path="res://scenes/enemies/enemy_spawner/enemy_spawner.tscn" id="4_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://d2w3ydbvmpskv" path="res://scenes/enemies/goblin/goblin.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://c51p8l1nxlhw0" path="res://scenes/game_manager/game_manager.tscn" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://xfht1suxv7x" path="res://scenes/treasure/treasure.tscn" id="7_o6xl0"]
 
 [node name="Main" type="Node2D"]
 
@@ -24,3 +25,6 @@ enemy_scene = ExtResource("5_tbgi4")
 
 [node name="GameManager" parent="." node_paths=PackedStringArray("enemy_spawner") instance=ExtResource("6_tefeu")]
 enemy_spawner = NodePath("../EnemySpawner")
+
+[node name="Treasure" parent="." instance=ExtResource("7_o6xl0")]
+position = Vector2(911, 424)

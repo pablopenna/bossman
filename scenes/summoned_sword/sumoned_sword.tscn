@@ -8,6 +8,7 @@
 size = Vector2(60, 14)
 
 [node name="Projectile" instance=ExtResource("1_xpbac")]
+z_index = 10
 script = ExtResource("1_qg702")
 
 [node name="Sprite2D" type="Sprite2D" parent="." index="1"]
