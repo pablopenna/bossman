@@ -1,10 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://xfht1suxv7x"]
+[gd_scene load_steps=6 format=3 uid="uid://xfht1suxv7x"]
 
 [ext_resource type="Texture2D" uid="uid://dcdfakrph7bnh" path="res://art/treasure_coin_stack.png" id="1_8kvvt"]
+[ext_resource type="Script" uid="uid://dk8w7uek1f117" path="res://scenes/treasure/treasure.gd" id="1_1466h"]
 [ext_resource type="Texture2D" uid="uid://de4s32ejw2dtn" path="res://art/treasure_bag.png" id="2_1466h"]
 [ext_resource type="Texture2D" uid="uid://nvdirtxrlvh1" path="res://art/treasure_bag_coins.png" id="3_w2wav"]
 
-[node name="Treasure" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1466h"]
+size = Vector2(114, 24)
+
+[node name="Treasure" type="Area2D"]
+collision_layer = 128
+collision_mask = 0
+script = ExtResource("1_1466h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(20, 12)
+shape = SubResource("RectangleShape2D_1466h")
+
+[node name="Timer" type="Timer" parent="."]
 
 [node name="coin_stack" type="Sprite2D" parent="."]
 texture = ExtResource("1_8kvvt")
@@ -36,3 +49,5 @@ texture = ExtResource("2_1466h")
 [node name="bag_coin" type="Sprite2D" parent="bag3"]
 position = Vector2(-1, 0)
 texture = ExtResource("3_w2wav")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

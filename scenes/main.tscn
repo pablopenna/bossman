@@ -1,12 +1,18 @@
-[gd_scene load_steps=8 format=3 uid="uid://dbhe8txmr3v0x"]
+[gd_scene load_steps=10 format=3 uid="uid://dbhe8txmr3v0x"]
 
 [ext_resource type="PackedScene" uid="uid://rsgbc50dyqjq" path="res://scenes/bossman/bossman.tscn" id="1_ndgxj"]
 [ext_resource type="PackedScene" uid="uid://cubphcw5vjaql" path="res://scenes/maps/throne_room/throne_room.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://dg0wodn064gs2" path="res://scenes/common/follower_camera/follower_camera.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://cvbla7chg57ru" path="res://scenes/enemies/enemy_spawner/enemy_spawner.tscn" id="4_tbgi4"]
-[ext_resource type="PackedScene" uid="uid://d2w3ydbvmpskv" path="res://scenes/enemies/goblin/goblin.tscn" id="5_tbgi4"]
-[ext_resource type="PackedScene" uid="uid://c51p8l1nxlhw0" path="res://scenes/game_manager/game_manager.tscn" id="6_tefeu"]
+[ext_resource type="Shader" uid="uid://hhfal33s5ch1" path="res://shaders/clearer_color.gdshader" id="6_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://cribleibtd15h" path="res://art/placeholder_blocks/48px_block.png" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://xfht1suxv7x" path="res://scenes/treasure/treasure.tscn" id="7_o6xl0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o6xl0"]
+shader = ExtResource("6_o6xl0")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o6xl0"]
+size = Vector2(48, 48)
 
 [node name="Main" type="Node2D"]
 
@@ -19,12 +25,25 @@ collision_layer = 0
 [node name="FollowerCamera" parent="." node_paths=PackedStringArray("target") instance=ExtResource("4_jyhfs")]
 target = NodePath("../Bossman")
 
-[node name="EnemySpawner" parent="." instance=ExtResource("4_tbgi4")]
-position = Vector2(41, 318)
-enemy_scene = ExtResource("5_tbgi4")
-
-[node name="GameManager" parent="." node_paths=PackedStringArray("enemy_spawner") instance=ExtResource("6_tefeu")]
-enemy_spawner = NodePath("../EnemySpawner")
+[node name="EnemySpawner" parent="." node_paths=PackedStringArray("treasure") instance=ExtResource("4_tbgi4")]
+position = Vector2(655, 318)
+treasure = NodePath("../Treasure")
 
 [node name="Treasure" parent="." instance=ExtResource("7_o6xl0")]
 position = Vector2(911, 424)
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(547, 279)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
+material = SubResource("ShaderMaterial_o6xl0")
+texture = ExtResource("6_tefeu")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Node2D"]
+collision_mask = 0
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/StaticBody2D"]
+shape = SubResource("RectangleShape2D_o6xl0")
+metadata/_edit_lock_ = true
